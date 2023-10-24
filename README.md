@@ -1,10 +1,13 @@
-# Secret Santa
+# Public Santa
 
-Check it live on [arcanis.github.io/secretsanta/](http://arcanis.github.io/secretsanta/).
+Check it live on [sizlo.github.io/public-santa/](http://sizlo.github.io/public-santa/).
+
+This project is a fork, check out the original [here](https://github.com/arcanis/secretsanta).
 
 ## License (MIT)
 
-> **Copyright © 2015 Maël Nison**
+> **This fork         Copyright © 2023 Tim Summerton-Brier**
+> **Original project  Copyright © 2015 Maël Nison**
 >
 > Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 >
