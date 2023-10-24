@@ -109,10 +109,6 @@
                 background: #FFFFFF;
             }
 
-            .result a {
-                color: blue;
-            }
-
             .result.none {
                 display: none;
             }
@@ -125,22 +121,24 @@
 
             .result-table {
                 table-layout: fixed;
+                border-spacing: 0;
+            }
 
-                width: 100%;
+            .result-row:nth-child(even) {
+                background-color: red;
+            }
+
+            .result-row:nth-child(odd) {
+                background-color: green;
             }
 
             .result-name {
-                width: 30%;
-
                 padding: 5px 8px;
+                color: white;
             }
 
-            .result-link {
-                width: 100%;
-                overflow: hidden;
-
-                text-overflow: ellipsis;
-                white-space: nowrap;
+            .result-message {
+                padding: 5px 8px;
             }
 
         </style>
