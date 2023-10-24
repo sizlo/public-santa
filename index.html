@@ -7,7 +7,6 @@
         <title>Secret Santa Generator</title>
 
         <script src="vendors/Lodash-3.10.1.js"></script>
-        <script src="vendors/Cryptojs.aes-3.1.2.js"></script>
 
         <script src="./SecretSanta.js"></script>
 
@@ -195,23 +194,13 @@
 
     <script>
 
-      function isAmazonEnabled() {
-
-          const checkBox = document.getElementById('amazon');
-
-          return checkBox ? checkBox.checked : false;
-
-      }
-
       function persist() {
 
           if ( ! window.localStorage )
               return ;
 
-          var amazon = isAmazonEnabled();
           var content = document.getElementById( 'input' ).value;
 
-          window.localStorage.setItem( 'amazon', amazon );
           window.localStorage.setItem( 'input', content );
 
       }
@@ -221,17 +210,10 @@
           if ( ! window.localStorage )
               return ;
 
-          var amazon = window.localStorage.getItem( 'amazon' );
           var content = window.localStorage.getItem( 'input' );
-
-          if (typeof amazon === 'undefined')
-              amazon = true;
 
           if (typeof content === 'undefined')
               content = '';
-
-          if ( document.getElementById( 'amazon' ) )
-              document.getElementById( 'amazon' ).checked = amazon;
 
           document.getElementById( 'input' ).value = content;
 
@@ -294,26 +276,6 @@
               tdReciever.className = 'result-name';
               tdReciever.innerText = pairings[ name ];
               tr.appendChild( tdReciever );
-          }
-
-      }
-
-      function updateAmazon() {
-
-          var result = document.getElementById( 'result' );
-          var links = result.getElementsByTagName( 'a' );
-
-          for ( var t = 0; t < links.length; ++t ) {
-
-              var link = links[t];
-
-              if ( isAmazonEnabled() )
-                  link.href += '&extra=1';
-              else
-                  link.href = link.href.replace( /&extra=[01]/, '' );
-
-              link.innerText = link.href;
-
           }
 
       }
@@ -389,28 +351,12 @@
 
       }
 
-      function protect( e ) {
-
-          var name = e.currentTarget.getAttribute( 'data-name' );
-
-          if ( ! confirm( 'If you click this link, you will be revealed ' + name + '\'s pairing! Are you sure you want to do this? Only do this if you\'re actually ' + name + '.\n\nUse right-click to copy the link target instead.' ) ) {
-              e.preventDefault();
-          }
-
-      }
-
     </script>
 
     <script>
 
         document.getElementById( 'input' ).placeholder = document.getElementById( 'input-placeholder' ).innerHTML.trim().replace( /^[ \t]+/gm, '' );
         document.getElementById( 'input' ).addEventListener( 'change', persist );
-
-        if ( document.getElementById( 'amazon' ) ) {
-            document.getElementById( 'amazon' ).addEventListener( 'change', updateAmazon );
-            document.getElementById( 'amazon' ).addEventListener( 'change', persist );
-        }
-
         document.getElementById( 'form' ).addEventListener( 'submit', generate );
 
         restore();
