@@ -152,7 +152,7 @@
             <div class="part" style="overflow-y: auto">
                 <div class="instructions">
                     <h1><img src="assets/mistletoe.png" style="vertical-align: middle" /> Public Santa Generator</h1>
-                    <p>Generate secret santa style pairings where the participants all know which gifter is buying for which reciever. No signups, emails, or any other nonsense required.</p>
+                    <p>Generate secret santa style pairings where the participants all know which gifter is giving to which reciever. No signups, emails, or any other nonsense required.</p>
                     <p>In the most common case (no exclusion rules, pair each guest with another at random), enter the name of your guests one line at a time. Once done, press "generate" and you're pairings will be revealed on this page.</p>
                     <h2>Where does this tool come from?</h2>
                     <p>This is a fork of <a href="https://github.com/arcanis/secretsanta">secretsanta</a> by <a href="https://github.com/arcanis">arcanis</a>. If you require the generated pairings to be secret, then use that tool instead.</p>
@@ -267,7 +267,7 @@
 
               var tdMessage = document.createElement( 'td' );
               tdMessage.className = 'result-message';
-              tdMessage.innerText = 'is buying for';
+              tdMessage.innerText = 'is gifting to';
               tr.appendChild( tdMessage );
 
               var tdReciever = document.createElement( 'td' );
