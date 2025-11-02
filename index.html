@@ -4,6 +4,7 @@
     <head>
 
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Public Santa Generator</title>
 
         <script src="vendors/Lodash-3.10.1.js"></script>
@@ -16,25 +17,21 @@
                 box-sizing: border-box;
             }
 
+            body {
+                display: flex;
+                justify-content: center;
+                font-family: 'Comic Sans MS';
+            }
+
             html, body, .main {
                 margin: 0;
 
                 width: 100%;
                 height: 100%;
-
-                padding: 0;
-            }
-
-            body {
-                background-image: url(assets/santa.png);
-                background-position: bottom right;
-                background-repeat: no-repeat;
-
-                font-family: 'Comic Sans MS';
             }
 
             .main {
-                display: flex;
+                max-width: 600px;
             }
 
             .part {
@@ -46,19 +43,22 @@
                 flex: 1;
             }
 
-            .instructions {
-                margin: auto 10%;
-            }
-
             .instructions a {
                 text-decoration: none;
 
                 color: #0CB50C;
             }
 
+            .red {
+                color: #EA1212;
+                font-weight: 900;
+            }
+
             .input {
                 display: block;
                 align-self: stretch;
+
+                height: 350px;
 
                 width: 100%;
                 flex: auto;
@@ -84,7 +84,7 @@
                 border-radius: 10px;
 
                 font-family: inherit;
-                font-size: 40px;
+                font-size: 25px;
 
                 background-color: #EA1212;
                 color: #FFFFFF;
@@ -154,38 +154,42 @@
                     <h1><img src="assets/mistletoe.png" style="vertical-align: middle" /> Public Santa Generator</h1>
                     <p>Generate secret santa style pairings where the participants all know which gifter is giving to which reciever. No signups, emails, or any other nonsense required.</p>
                     <p>In the most common case (no exclusion rules, pair each guest with another at random), enter the name of your guests one line at a time. Once done, press "generate" and you're pairings will be revealed on this page.</p>
+                    <p>You can prevent a gifter giving to specific receivers by adding those receivers to the same line prefixed with <span class="red">!</span>. For example:</p>
+                    <pre>Cupid !Vixen !Dasher</pre>
+                    <p>You can also cheat and force a gifter to give to a specific receiver by adding that reciever to the same line prefixed with <span class="red">=</span>. For example:</p>
+                    <pre>Rudolph =Prancer</pre>
                     <h2>Where does this tool come from?</h2>
                     <p>This is a fork of <a href="https://github.com/arcanis/secretsanta">secretsanta</a> by <a href="https://github.com/arcanis">arcanis</a>. If you require the generated pairings to be secret, then use that tool instead.</p>
                 </div>
             </div>
 
             <form id="form" class="part">
-                <textarea id="input" class="input" autofocus></textarea>
-                <button type="submit" class="generate">Generate your pairings</button>
+                <textarea id="input" class="input"></textarea>
                 <div id="result" class="result none"></div>
+                <button type="submit" class="generate">Generate your pairings</button>
             </form>
 
         </div>
 
         <script id="input-placeholder" type="text/placeholder">
-            # You can add a user by adding a line
-            Santa
+            Dasher
+            Dancer
+            Prancer
+            Vixen
+            Comet
 
-            # You can add some details if you want to, using parentheses after the name
-            Nicholas (the elf)
+            # Prevent Cupid and Donner
+            # from gifting to each other
+            Cupid !Donner
+            Donner !Cupid
 
-            # You can prevent someone from being paired with someone else
-            Maël !Aurélie
-            Aurélie !Maël
-
-            # You can also exclude someone from being paired with multiple people
-            # Careful: too many exclusion rules can make your public santa less interesting!
-            Rudolph !Santa !Nicholas (the elf)
-
-            # You can also cheat a bit and force someone to be paired with another
-            Nicholas (the saint) =Nicholas (the elf)
-
-            ...
+            # Prevent Blitzen from gifting to 
+            # Vixen or Dasher
+            Blitzen !Vixen !Dasher
+            
+            # Force Rudolph to gift to
+            # Prancer
+            Rudolph =Prancer
         </script>
 
     </body>
