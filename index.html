@@ -237,7 +237,7 @@
           result.classList.remove( 'none' );
           result.classList.add( 'error' );
 
-          result.innerText = text;
+          result.innerText = 'Error: ' + text;
 
       }
 
@@ -283,68 +283,67 @@
       }
 
       function generate( e ) {
+          try {
+              e.preventDefault();
 
-          e.preventDefault();
+              var content = document.getElementById( 'input' ).value;
 
-          var content = document.getElementById( 'input' ).value;
+              // Convert carriage returns into line feeds
+              content = content.replace( /(\r\n|\r)/g, '\n' );
 
-          // Convert carriage returns into line feeds
-          content = content.replace( /(\r\n|\r)/g, '\n' );
+              // Merge adjacent blank characters into a single space
+              content = content.replace( /[ \t]+/g, ' ' );
 
-          // Merge adjacent blank characters into a single space
-          content = content.replace( /[ \t]+/g, ' ' );
+              // Trim lines
+              content = content.replace( /^ | $/gm, '' );
 
-          // Trim lines
-          content = content.replace( /^ | $/gm, '' );
+              // Strip comments
+              content = content.replace( /^#.*$/gm, '' );
 
-          // Strip comments
-          content = content.replace( /^#.*$/gm, '' );
+              // Strip empty lines
+              content = content.replace( /\n+/g, '\n' );
 
-          // Strip empty lines
-          content = content.replace( /\n+/g, '\n' );
+              // Remove leading/trailing newlines
+              content = content.replace( /^\n|\n$/g, '' );
 
-          // Remove leading/trailing newlines
-          content = content.replace( /^\n|\n$/g, '' );
+              var lines = content.split( /\n/g );
 
-          var lines = content.split( /\n/g );
+              if ( lines.length === 0 || lines.length === 1 && lines[ 0 ].length === 0 )
+                  return reset();
 
-          if ( lines.length === 0 || lines.length === 1 && lines[ 0 ].length === 0 )
-              return reset();
+              var santa = new SecretSanta();
 
-          var santa = new SecretSanta();
+              for ( var t = 0, T = lines.length; t < T; ++ t ) {
 
-          for ( var t = 0, T = lines.length; t < T; ++ t ) {
+                  var match = lines[ t ].match( /^((?:(?![!=]).)+)((?: [!=](?:(?! [!=]).)+)*)$/ );
 
-              var match = lines[ t ].match( /^((?:(?![!=]).)+)((?: [!=](?:(?! [!=]).)+)*)$/ );
+                  if ( ! match )
+                      return error( 'Syntax error: "' + lines[ t ] + '" isn\'t valid' );
 
-              if ( ! match )
-                  return error( 'Syntax error: "' + lines[ t ] + '" isn\'t valid' );
+                  var name = match[ 1 ];
+                  var rules = match[ 2 ] ? match[ 2 ].match(/[!=][^!=]+/g) : null;
 
-              var name = match[ 1 ];
-              var rules = match[ 2 ] ? match[ 2 ].match(/[!=][^!=]+/g) : null;
+                  var person = santa.add( name );
 
-              var person = santa.add( name );
+                  if (rules) {
 
-              if (rules) {
+                      for ( var u = 0, U = rules.length; u < U; ++ u ) {
 
-                  for ( var u = 0, U = rules.length; u < U; ++ u ) {
+                          var fnName = {
 
-                      var fnName = {
+                              '=': 'enforce',
+                              '!': 'blacklist'
 
-                          '=': 'enforce',
-                          '!': 'blacklist'
+                          }[ rules[ u ].charAt( 0 ) ];
 
-                      }[ rules[ u ].charAt( 0 ) ];
+                          person[ fnName ]( rules[ u ].slice( 1 ).trim() );
 
-                      person[ fnName ]( rules[ u ].slice( 1 ).trim() );
+                      }
 
                   }
 
               }
 
-          }
-
-          try {
               return success( santa.generate() );
           } catch ( err ) {
             console.error(err.stack)

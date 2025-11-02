@@ -1,22 +1,28 @@
 var SecretSanta = function () {
 
     this.names = [];
+    this.displayNames = {}
 
     this.enforced = Object.create( null );
     this.blacklists = Object.create( null );
 };
 
 
-SecretSanta.prototype.add = function ( name ) {
+SecretSanta.prototype.add = function ( rawName ) {
+
+    var name = rawName.toLowerCase();
 
     if ( this.names.indexOf( name ) !== -1 )
-        throw new Error( 'Cannot redefine ' + name );
+        throw new Error( 'Found multiple guests called "' + name + '"' );
 
     this.names.push( name );
+    this.displayNames[name] = rawName;
 
     var subapi = { };
 
-    subapi.enforce = function ( other ) {
+    subapi.enforce = function ( rawOther ) {
+
+        var other = rawOther.toLowerCase();
 
         this.enforced[ name ] = other;
 
@@ -24,7 +30,9 @@ SecretSanta.prototype.add = function ( name ) {
 
     }.bind( this );
 
-    subapi.blacklist = function ( other ) {
+    subapi.blacklist = function ( rawOther ) {
+
+        var other = rawOther.toLowerCase();
 
         if ( ! Object.prototype.hasOwnProperty.call( this.blacklists, name ) )
             this.blacklists[ name ] = [];
@@ -106,6 +114,12 @@ SecretSanta.prototype.generate = function () {
 
     }
 
-    return pairings;
+    var displayPairings = {};
+    for (var i = 0; i < Object.keys(pairings).length; i++) {
+        var rawName = Object.keys(pairings)[i];
+        displayPairings[this.displayNames[rawName]] = this.displayNames[pairings[rawName]];
+    }
+
+    return displayPairings;
 
 };
